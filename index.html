@@ -12,6 +12,7 @@
 			<div class="container">
 				<div class="jumbotron">
 					<h1>Train Schedule</h1>
+						<div id="now"></div>
 				</div>
 			</div>
 		</header>
@@ -64,35 +65,6 @@
 			</div>
 		</div>
 
-<!-- patterning isn't going to work unless I can decouple from event listener and use action to feed to javascript.
-		<div class="container">
-			<div class="panel panel-primary">
-				<div class="panel-heading">Add a Train</div>
-				<div class="panel-body">
-					<form role="form" action = ""> 
-					 	<div class="form-group">
-							<label for="text">Train Name</label>
-							<input type="text" class="form-control" id="inputName">
-						</div>
-						<div class="form-group">
-							<label for="text">Destination</label>
-							<input type="text" class="form-control" id="inputDest">
-						</div>
-											 	
-						<div class="form-group">
-							<label for="text">First Train Time</label>
-							<input type="text" class="form-control" id="inputFirstRun" pattern="^([0-1]?[0-9]|2[0-3]):([0-5][0-9])?$" title="HH:mm">
-						</div>
-						<div class="form-group">
-							<label for="text">Frequency (min)</label>
-							<input type="number" class="form-control" id="inputFreq">
-						</div>
-						<button type="submit" class="btn" id="inputSubmit">Submit</button>
-					</form>
-				</div>
-			</div>
-		</div>
--->
 		<script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
 
 		<script src="https://www.gstatic.com/firebasejs/3.5.3/firebase.js"></script>

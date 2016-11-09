@@ -60,7 +60,6 @@ database.ref().on("child_added", function(childSnapshot){
 	freqTD.text(childFreq);
 	nextTD.text(nextRunTime(childFirstRun, childFreq));
 	minTD.text(nextRunMin(childFirstRun, childFreq));
-	
 
 	newRow.append(nameTD);
 	newRow.append(destTD);
@@ -70,27 +69,39 @@ database.ref().on("child_added", function(childSnapshot){
 
 	$("tbody").append(newRow);
 
+	$("#now").text(moment().format("HH:mm"));
+
 }, function (errorObject) {
   	console.log("The read failed: " + errorObject.code);
 });
 
-function nextRunMin(firstRun, frequency) {
-	var timeSplit = firstRun.split(":");
-	var timeDiff = moment().diff(moment().startOf("day").add(timeSplit[0],"hours").add(timeSplit[1], "minutes"), "minutes");
 
-	if (timeDiff < 0) {//event hasn't happened yet. 
-		return timeDiff * -1; //return the minutes until the future event occurs
-	}
-	else {//firstRun has occured.
-		if (timeDiff < frequency) {
-			return (frequency - timeDiff);
-		}
-		else {
-			return frequency - (timeDiff % frequency);
-		}
-	}
+
+//It is assumed that all trains stop at midnight.
+// You're not going to get the results you want if you have a pre-midnight train with freq that carries post midnight.
+
+function todayFirstRun(firstRun) {
+	var timeSplit = firstRun.split(":");
+	return moment().startOf("day").add(timeSplit[0],"hours").add(timeSplit[1], "minutes");
+}
+
+function nextRunMin(firstRun, frequency) {
+	var todaysFirst = todayFirstRun(firstRun);
+
+	var timeDiff = moment().diff(todaysFirst, "minutes");
+
+	if(todaysFirst < moment() )
+		return frequency - (timeDiff % frequency);
+	else 
+		return timeDiff * (-1);
+
 }
 
 function nextRunTime(firstRun, frequency) {
-	return moment().add(nextRunMin(firstRun, frequency), "minutes").format("HH:mm");
+	var todaysFirst = todayFirstRun(firstRun);
+
+	if(todaysFirst < moment() )
+		return moment().add(nextRunMin(firstRun, frequency), "minutes").format("HH:mm");
+	else
+		return firstRun;
 }
